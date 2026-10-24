@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="320dp"
+    android:height="160dp"
+    android:viewportWidth="320"
+    android:viewportHeight="160">
+
+    <!-- Background: Deep Slate Obsidian -->
+    <path
+        android:pathData="M0,0 H320 V160 H0 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="0"
+                android:startY="0"
+                android:endX="320"
+                android:endY="160"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#FF0F172A" />
+                <item android:offset="0.5" android:color="#FF0D1322" />
+                <item android:offset="1.0" android:color="#FF0B0E17" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Emerald Security Ambient Glow (Left) -->
+    <path
+        android:pathData="M-20,-20 A120,120 0 0,0 180,60 A120,120 0 0,0 -20,-20 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:centerX="60"
+                android:centerY="40"
+                android:gradientRadius="120"
+                android:type="radial">
+                <item android:offset="0.0" android:color="#2634D399" />
+                <item android:offset="0.8" android:color="#0A10B981" />
+                <item android:offset="1.0" android:color="#00000000" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Hexagonal Security Mesh / Grid Pattern -->
+    <path
+        android:strokeColor="#1238BDF8"
+        android:strokeWidth="1"
+        android:pathData="M30,20 L50,8 L70,20 L70,44 L50,56 L30,44 Z M70,20 L90,8 L110,20 L110,44 L90,56 L70,44 Z M50,56 L70,44 L90,56 L90,80 L70,92 L50,80 Z" />
+    <path
+        android:strokeColor="#0E38BDF8"
+        android:strokeWidth="1"
+        android:pathData="M230,90 L250,78 L270,90 L270,114 L250,126 L230,114 Z M270,90 L290,78 L310,90 L310,114 L290,126 L270,114 Z" />
+
+    <!-- Center Left: Giant Shield with Biometric & Lock -->
+    <path
+        android:strokeColor="#8034D399"
+        android:strokeWidth="2"
+        android:pathData="M75,30 L115,42 C115,92 90,118 75,128 C60,118 35,92 35,42 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="75"
+                android:startY="30"
+                android:endX="75"
+                android:endY="128"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#E0064E3B" />
+                <item android:offset="1.0" android:color="#B3062820" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Padlock on the Shield -->
+    <path
+        android:strokeColor="#FF6EE7B7"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M65,66 V56 C65,50 69,46 75,46 C81,46 85,50 85,56 V66" />
+    <path
+        android:fillColor="#FFD1FAE5"
+        android:pathData="M59,66 H91 C93.2,66 95,67.8 95,70 V88 C95,90.2 93.2,92 91,92 H59 C56.8,92 55,90.2 55,88 V70 C55,67.8 56.8,66 59,66 Z" />
+    <path
+        android:fillColor="#FF065F46"
+        android:pathData="M75,73 A 3,3 0 0,0 72,76 C72,77.5 73,78.5 74,79.5 L73,85 H77 L76,79.5 C77,78.5 78,77.5 78,76 A 3,3 0 0,0 75,73 Z" />
+
+    <!-- Right Side: Cloud with Diagonal Slashed Line (No Cloud / Air Gapped / Zero Remote Transmission) -->
+    <!-- Cloud shape -->
+    <path
+        android:strokeColor="#8094A3B8"
+        android:strokeWidth="2"
+        android:fillColor="#1594A3B8"
+        android:pathData="M180,75 C180,68 186,62 193,62 C196,54 204,48 214,48 C226,48 236,56 238,67 C245,67 251,73 251,80 C251,87 245,93 238,93 H187 C183,93 180,89 180,85 Z" />
+    
+    <!-- Red/Coral Slash Line across Cloud -->
+    <path
+        android:strokeColor="#FFF87171"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M174,100 L256,44" />
+
+    <!-- Disconnected Cross Accent -->
+    <path
+        android:fillColor="#FFF87171"
+        android:pathData="M256,44 m -4, 0 a 4,4 0 1,0 8,0 a 4,4 0 1,0 -8,0" />
+
+    <!-- Local Database Server Nodes Icon below Cloud -->
+    <path
+        android:strokeColor="#FF38BDF8"
+        android:strokeWidth="1.8"
+        android:fillColor="#1E0284C7"
+        android:pathData="M185,112 C185,108 200,105 218,105 C236,105 251,108 251,112 C251,116 236,119 218,119 C200,119 185,116 185,112 Z" />
+    <path
+        android:strokeColor="#FF38BDF8"
+        android:strokeWidth="1.8"
+        android:pathData="M185,112 V124 C185,128 200,131 218,131 C236,131 251,128 251,124 V112" />
+    <path
+        android:strokeColor="#FF38BDF8"
+        android:strokeWidth="1.8"
+        android:pathData="M185,124 V136 C185,140 200,143 218,143 C236,143 251,140 251,136 V124" />
+
+    <!-- Local Indicator LED dots on DB -->
+    <path
+        android:fillColor="#FF34D399"
+        android:pathData="M192,125 m -2, 0 a 2,2 0 1,0 4,0 a 2,2 0 1,0 -4,0" />
+    <path
+        android:fillColor="#FF34D399"
+        android:pathData="M192,137 m -2, 0 a 2,2 0 1,0 4,0 a 2,2 0 1,0 -4,0" />
+
+</vector>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="320dp"
+    android:height="180dp"
+    android:viewportWidth="320"
+    android:viewportHeight="180">
+
+    <!-- Background: Deep Luxurious Obsidian & Violet Gradient -->
+    <path
+        android:pathData="M0,0 H320 V180 H0 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="0"
+                android:startY="0"
+                android:endX="320"
+                android:endY="180"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#FF161026" />
+                <item android:offset="0.5" android:color="#FF100E19" />
+                <item android:offset="1.0" android:color="#FF0B0B0E" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Ambient Radial Glow on Left (Security Violet) -->
+    <path
+        android:pathData="M-40,-40 A140,140 0 0,0 200,80 A140,140 0 0,0 -40,-40 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:centerX="60"
+                android:centerY="60"
+                android:gradientRadius="140"
+                android:type="radial">
+                <item android:offset="0.0" android:color="#33D0BCFF" />
+                <item android:offset="0.7" android:color="#10A080E0" />
+                <item android:offset="1.0" android:color="#00000000" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Ambient Radial Glow on Right (Financial Emerald) -->
+    <path
+        android:pathData="M160,40 A140,140 0 0,0 360,200 A140,140 0 0,0 160,40 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:centerX="280"
+                android:centerY="120"
+                android:gradientRadius="120"
+                android:type="radial">
+                <item android:offset="0.0" android:color="#2A81C784" />
+                <item android:offset="0.6" android:color="#0D4CAF50" />
+                <item android:offset="1.0" android:color="#00000000" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Subtle Tech Circuit Lines & Grid -->
+    <path
+        android:strokeColor="#18FFFFFF"
+        android:strokeWidth="1"
+        android:pathData="M20,30 H300 M20,60 H300 M20,90 H300 M20,120 H300 M20,150 H300" />
+    <path
+        android:strokeColor="#10FFFFFF"
+        android:strokeWidth="1"
+        android:pathData="M60,20 V160 M120,20 V160 M180,20 V160 M240,20 V160" />
+
+    <!-- Upward Trend Chart Area Under Curve -->
+    <path
+        android:pathData="M140,140 Q 180,135 210,110 T 260,85 T 300,55 L 300,150 L 140,150 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="220"
+                android:startY="55"
+                android:endX="220"
+                android:endY="150"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#4081C784" />
+                <item android:offset="0.5" android:color="#1A81C784" />
+                <item android:offset="1.0" android:color="#0081C784" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Upward Trend Chart Line -->
+    <path
+        android:strokeColor="#FF81C784"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:fillColor="#00000000"
+        android:pathData="M140,140 Q 180,135 210,110 T 260,85 T 300,55" />
+
+    <!-- Glowing Data Nodes on the Line -->
+    <path
+        android:fillColor="#FF81C784"
+        android:pathData="M210,110 m -3.5, 0 a 3.5,3.5 0 1,0 7,0 a 3.5,3.5 0 1,0 -7,0" />
+    <path
+        android:fillColor="#FFD0BCFF"
+        android:pathData="M260,85 m -3.5, 0 a 3.5,3.5 0 1,0 7,0 a 3.5,3.5 0 1,0 -7,0" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M300,55 m -4.5, 0 a 4.5,4.5 0 1,0 9,0 a 4.5,4.5 0 1,0 -9,0" />
+
+    <!-- Floating Sleek Payment Card (Right angle) -->
+    <path
+        android:strokeColor="#40D0BCFF"
+        android:strokeWidth="1.2"
+        android:pathData="M200,50 L275,32 C279,31 283,34 284,38 L293,76 C294,80 291,84 287,85 L212,103 C208,104 204,101 203,97 L194,59 C193,55 196,51 200,50 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="195"
+                android:startY="50"
+                android:endX="290"
+                android:endY="80"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#CC2B1B48" />
+                <item android:offset="1.0" android:color="#99151222" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <!-- Microchip on card -->
+    <path
+        android:fillColor="#FFD4AF37"
+        android:pathData="M215,62 L225,60 L227,69 L217,71 Z" />
+
+    <!-- Center-Left: Big Security Vault Shield -->
+    <path
+        android:strokeColor="#66D0BCFF"
+        android:strokeWidth="1.5"
+        android:pathData="M65,35 L95,45 C95,85 75,108 65,116 C55,108 35,85 35,45 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="65"
+                android:startY="35"
+                android:endX="65"
+                android:endY="116"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#EE2B1E4A" />
+                <item android:offset="1.0" android:color="#DD141122" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Padlock Shackle -->
+    <path
+        android:strokeColor="#FFD0BCFF"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M56,66 V56 C56,51 60,47 65,47 C70,47 74,51 74,56 V66" />
+
+    <!-- Padlock Body -->
+    <path
+        android:fillColor="#FFE8DEF8"
+        android:pathData="M51,66 H79 C81.5,66 83,67.5 83,70 V86 C83,88.5 81.5,90 79,90 H51 C48.5,90 47,88.5 47,86 V70 C47,67.5 48.5,66 51,66 Z" />
+
+    <!-- Keyhole / Currency Symbol in Lock -->
+    <path
+        android:fillColor="#FF1D192B"
+        android:pathData="M65,72 A 3,3 0 0,0 62,75 C62,76.5 63,77.5 64,78.5 L63,84 H67 L66,78.5 C67,77.5 68,76.5 68,75 A 3,3 0 0,0 65,72 Z" />
+
+    <!-- Shield Embellishment Checkmark / Aura -->
+    <path
+        android:strokeColor="#FF81C784"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:fillColor="#00000000"
+        android:pathData="M90,75 L96,81 L108,69" />
+
+    <!-- Privacy Pills / Badges (Left Bottom) -->
+    <path
+        android:strokeColor="#40D0BCFF"
+        android:strokeWidth="1"
+        android:fillColor="#33D0BCFF"
+        android:pathData="M35,135 H135 C141,135 146,140 146,146 V146 C146,152 141,157 135,157 H35 C29,157 24,152 24,146 V146 C24,140 29,135 35,135 Z" />
+
+    <!-- Lock icon inside pill -->
+    <path
+        android:strokeColor="#FFD0BCFF"
+        android:strokeWidth="1.2"
+        android:fillColor="#00000000"
+        android:pathData="M34,143 V140 C34,138.5 35,137.5 36.5,137.5 C38,137.5 39,138.5 39,140 V143 M32,143 H41 V151 H32 Z" />
+
+    <!-- Dot decorative accents -->
+    <path
+        android:fillColor="#80FFFFFF"
+        android:pathData="M48,146 H138 V147 H48 Z" />
+
+</vector>

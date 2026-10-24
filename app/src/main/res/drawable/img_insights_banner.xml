@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="320dp"
+    android:height="160dp"
+    android:viewportWidth="320"
+    android:viewportHeight="160">
+
+    <!-- Background: Indigo Velvet Gradient -->
+    <path
+        android:pathData="M0,0 H320 V160 H0 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="0"
+                android:startY="0"
+                android:endX="320"
+                android:endY="160"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#FF1A102E" />
+                <item android:offset="0.5" android:color="#FF130C22" />
+                <item android:offset="1.0" android:color="#FF0C0717" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Ambient Violet Glow on Left -->
+    <path
+        android:pathData="M-30,-30 A130,130 0 0,0 170,70 A130,130 0 0,0 -30,-30 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:centerX="50"
+                android:centerY="50"
+                android:gradientRadius="130"
+                android:type="radial">
+                <item android:offset="0.0" android:color="#35C084FC" />
+                <item android:offset="0.8" android:color="#0F9333EA" />
+                <item android:offset="1.0" android:color="#00000000" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Modern Analytics Donut Ring (Left Side) -->
+    <!-- Segment 1: Shopping (Violet) -->
+    <path
+        android:strokeColor="#FFC084FC"
+        android:strokeWidth="14"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M70,30 A42,42 0 0,1 112,72" />
+    <!-- Segment 2: Food (Teal) -->
+    <path
+        android:strokeColor="#FF2DD4BF"
+        android:strokeWidth="14"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M112,72 A42,42 0 0,1 70,114" />
+    <!-- Segment 3: Bills (Amber) -->
+    <path
+        android:strokeColor="#FFFBBF24"
+        android:strokeWidth="14"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M70,114 A42,42 0 0,1 28,72" />
+    <!-- Segment 4: Groceries (Coral) -->
+    <path
+        android:strokeColor="#FFF87171"
+        android:strokeWidth="14"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M28,72 A42,42 0 0,1 70,30" />
+
+    <!-- Center text/icon of donut ring: Rupee / Savings -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M64,63 H76 M64,68 H76 M71,63 C67,63 65,66 65,69 C65,73 70,72 73,75 L77,81" />
+
+    <!-- Right Side: Analytics Modern Bar Charts -->
+    <!-- Bar 1 -->
+    <path
+        android:pathData="M150,90 H168 V135 H150 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="159"
+                android:startY="90"
+                android:endX="159"
+                android:endY="135"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#FFC084FC" />
+                <item android:offset="1.0" android:color="#33C084FC" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <!-- Bar 2 -->
+    <path
+        android:pathData="M180,65 H198 V135 H180 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="189"
+                android:startY="65"
+                android:endX="189"
+                android:endY="135"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#FF2DD4BF" />
+                <item android:offset="1.0" android:color="#332DD4BF" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <!-- Bar 3 -->
+    <path
+        android:pathData="M210,45 H228 V135 H210 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="219"
+                android:startY="45"
+                android:endX="219"
+                android:endY="135"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#FFFBBF24" />
+                <item android:offset="1.0" android:color="#33FBBF24" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <!-- Bar 4 -->
+    <path
+        android:pathData="M240,75 H258 V135 H240 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="249"
+                android:startY="75"
+                android:endX="249"
+                android:endY="135"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#FF818CF8" />
+                <item android:offset="1.0" android:color="#33818CF8" />
+            </gradient>
+        </aapt:attr>
+    </path>
+    <!-- Bar 5 -->
+    <path
+        android:pathData="M270,35 H288 V135 H270 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="279"
+                android:startY="35"
+                android:endX="279"
+                android:endY="135"
+                android:type="linear">
+                <item android:offset="0.0" android:color="#FF34D399" />
+                <item android:offset="1.0" android:color="#3334D399" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Base axis line -->
+    <path
+        android:strokeColor="#33FFFFFF"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:pathData="M142,136 H296" />
+
+    <!-- Ascending Trend Sparkline over bars -->
+    <path
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:fillColor="#00000000"
+        android:pathData="M159,85 L189,60 L219,40 L249,70 L279,30" />
+    <path
+        android:fillColor="#FF34D399"
+        android:pathData="M279,30 m -3, 0 a 3,3 0 1,0 6,0 a 3,3 0 1,0 -6,0" />
+
+</vector>

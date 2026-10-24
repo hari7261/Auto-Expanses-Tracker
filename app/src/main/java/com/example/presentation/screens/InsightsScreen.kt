@@ -24,6 +24,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
+import com.example.R
 import androidx.core.content.FileProvider
 import com.example.data.local.entities.Expense
 import com.example.presentation.viewmodel.ExpenseViewModel
@@ -346,14 +349,24 @@ fun InsightsScreen(viewModel: ExpenseViewModel) {
                 ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState())
                     ) {
-                        Icon(
-                            Icons.Default.Analytics,
-                            contentDescription = "No data",
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f),
-                            modifier = Modifier.size(72.dp)
-                        )
+                        Box(
+                            modifier = Modifier
+                                .size(64.dp)
+                                .clip(CircleShape)
+                                .background(MaterialTheme.colorScheme.primaryContainer),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                Icons.Default.QueryStats,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                                modifier = Modifier.size(32.dp)
+                            )
+                        }
+
                         Text(
                             "Not Enough Activity Found",
                             fontWeight = FontWeight.Bold,
@@ -367,7 +380,7 @@ fun InsightsScreen(viewModel: ExpenseViewModel) {
                             fontSize = 14.sp,
                             modifier = Modifier.padding(horizontal = 16.dp)
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(4.dp))
                         Button(
                             onClick = {
                                 selectedFilter = "Monthly"
