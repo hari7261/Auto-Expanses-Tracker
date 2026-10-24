@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Shackle of the padlock -->
+    <path
+        android:strokeColor="#D0BCFF"
+        android:strokeWidth="4"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M38,51 V38 C38,29.16 45.16,22 54,22 C62.84,22 70,29.16 70,38 V51" />
+
+    <!-- Solid modern elegant locked body -->
+    <path
+        android:fillColor="#E2E2E6"
+        android:pathData="M32,51 H76 C80.4,51 84,54.6 84,59 V77 C84,81.4 80.4,85 76,85 H32 C27.6,85 24,81.4 24,77 V59 C24,54.6 27.6,51 32,51 Z" />
+        
+    <!-- Darker core visual pattern inside the lock (Security Shield) -->
+    <path
+        android:fillColor="#141416"
+        android:pathData="M38,58 H70 C72.2,58 74,59.8 74,62 V74 C74,77.5 70.0,81 54,82 C38,81 34,77.5 34,74 V62 C34,59.8 35.8,58 38,58 Z" />
+
+    <!-- Stylized Rupee (₹) symbol inside the lock core to represent expenses -->
+    <path
+        android:strokeColor="#D0BCFF"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:fillColor="#00000000"
+        android:pathData="M48,64 H60 M48,68 H60 M55,64 C51,64 49,67 49,70 C49,74 54,73 57,76 L61,80" />
+</vector>

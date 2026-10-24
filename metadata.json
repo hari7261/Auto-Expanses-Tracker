@@ -1,0 +1,6 @@
+{
+  "name": "Private Expenses",
+  "description": "A privacy-first manual expense tracker with optional notification parsing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
