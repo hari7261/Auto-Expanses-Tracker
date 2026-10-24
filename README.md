@@ -1,210 +1,238 @@
 # 🛡️ Private Expenses
+<img width="1024" height="572" alt="image" src="https://github.com/user-attachments/assets/50d26fe3-e79c-419c-a277-d56ee70fb765" />
 
-> **A 100% offline, privacy-first personal financial ledger with intelligent on-device payment notification and SMS parsing.**
+> **The zero-permission, air-gapped personal finance tracker for Android.**  
+> Automatically captures and parses UPI and banking transactions on-device—with no cloud sync, no tracking, and zero internet permissions.
 
-[![Platform](https://img.shields.io/badge/Platform-Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://developer.android.com)
-[![Language](https://img.shields.io/badge/Language-Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org)
-[![UI Framework](https://img.shields.io/badge/UI-Jetpack%20Compose%20%7C%20Material%203-4285F4?style=for-the-badge&logo=jetpackcompose&logoColor=white)](https://developer.android.com/jetpack/compose)
-[![Database](https://img.shields.io/badge/Storage-Room%20(SQLite)-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://developer.android.com/training/data-storage/room)
-[![Privacy Guarantee](https://img.shields.io/badge/Privacy-100%25%20Offline%20(Zero%20Internet%20Permission)-00C853?style=for-the-badge&logo=shield&logoColor=white)](#-is-this-secure-security--privacy-deep-dive)
+[![Platform](https://img.shields.io/badge/Platform-Android_8.0+_(API_26+)-3DDC84?style=flat-square&logo=android&logoColor=white)](https://developer.android.com)
+[![Language](https://img.shields.io/badge/Language-Kotlin_2.0-7F52FF?style=flat-square&logo=kotlin&logoColor=white)](https://kotlinlang.org)
+[![UI Framework](https://img.shields.io/badge/UI-Jetpack_Compose_|_Material_3-4285F4?style=flat-square&logo=jetpackcompose&logoColor=white)](https://developer.android.com/jetpack/compose)
+[![Database](https://img.shields.io/badge/Storage-Room_SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white)](https://developer.android.com/training/data-storage/room)
+[![Network Permission](https://img.shields.io/badge/Internet_Access-DENIED_(Zero_Permissions)-00C853?style=flat-square&logo=shield&logoColor=white)](#-security--privacy-architecture)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
 
 ---
 
+## 📌 Table of Contents
+
+- [Why Private Expenses?](#-why-private-expenses)
+- [How It Compares](#-how-it-compares)
+- [System Architecture & Data Flow](#-system-architecture--data-flow)
+- [Security & Privacy Architecture](#-security--privacy-architecture)
+- [Core Feature Matrix](#-core-feature-matrix)
+- [Permission Justification Matrix](#-permission-justification-matrix)
+- [Quick Start & Setup Guide](#-quick-start--setup-guide)
+- [Technical Architecture](#-technical-architecture)
+- [Build & Development Setup](#-build--development-setup)
+- [License](#-license)
+
+---
+
+## ⚡ Why Private Expenses?
+
+Most commercial expense trackers follow an invasive model: they ingest your entire SMS inbox, upload banking metadata to cloud providers, and sell aggregated consumer insights.
+
+**Private Expenses re-engineers the paradigm:**
+
+1. **Operating System Enforcement:** The app contains zero network capability. `android.permission.INTERNET` is omitted from the manifest, making external leaks physically impossible.
+2. **On-Device Deterministic Parsing:** High-performance regex parses SMS alerts and notification strings locally in milliseconds.
+3. **Staging Queue Isolation:** Transactions are never committed to your ledger silently. You approve, classify, or discard each item manually.
+4. **Hardware Biometric Lock:** Enforced through Android's `BiometricPrompt` framework backed by secure hardware (TEE/StrongBox).
+
+---
+
+## ⚖️ How It Compares
+
+| Feature / Metric | Standard Tracker Apps | Cloud-Sync FinTech Apps | **Private Expenses** |
+| :--- | :---: | :---: | :---: |
+| **Internet Access** | Required | Mandatory | ❌ **Completely Blocked (No Permission)** |
+| **Data Storage Location** | Remote Cloud (AWS/GCP) | Remote Cloud & Analytics | 🔒 **100% On-Device (Sandboxed SQLite)** |
+| **Account / Login Required** | Yes (Email/Phone/OAuth) | Yes (Phone + Banking Auth) | 🛡️ **None (Zero Sign-up)** |
+| **SMS Scraping Model** | Full Inbox Sync to Cloud | Full Inbox Sync to Cloud | ⚡ **Push Event Only (On-Device Parsing)** |
+| **Transaction Ingestion** | Silent Auto-Import | Silent Auto-Import | 📥 **Staging Queue (Manual Review)** |
+| **Tracking / Ads SDKs** | Present (Firebase/Meta/AppsFlyer) | Present (Telemetry/Mixpanel) | 🚫 **Zero External SDKs** |
+| **Data Portability** | Subscription / Paywalled | Web Portal Export | 💾 **Direct Local CSV / JSON Backup** |
+
+---
+
+## 🔄 System Architecture & Data Flow
+
+```mermaid
+flowchart TD
+    subgraph OS_Level [Android System Layer]
+        A1[Bank SMS Broadcast] -->|RECEIVE_SMS| B[SmsReceiver]
+        A2[Payment Push Notification] -->|NotificationListenerService| C[PaymentNotificationListener]
+    end
+
+    subgraph Filter_Engine [Ingestion & Processing]
+        B --> D{Allowlist Check}
+        C --> D
+        D -- Dropped --> X[Discard / Ignore]
+        D -- Allowed --> E[Local Regex Parser Engine]
+        E -->|Extract Merchant, Amount, Mode| F[Staged Notification Entity]
+    end
+
+    subgraph Staging_UI [User Verification Gate]
+        F --> G[Alerts / Suggestions Screen]
+        G -->|Manual Review & Classification| H{User Decision}
+        H -- Swipe to Delete --> I[Discard Permanently]
+        H -- Approve / Edit --> J[Commit to Ledger]
+    end
+
+    subgraph Data_Layer [Isolated Storage Layer]
+        J --> K[(Room SQLite Database)]
+        K --> L[Dashboard & Analytics View]
+        K --> M[Budget Progress Engine]
+        K --> N[CSV / JSON Export Pipeline]
+    end
+
+    style OS_Level fill:#1e1e24,stroke:#4a4a5a,stroke-width:1px,color:#fff
+    style Filter_Engine fill:#182026,stroke:#2b5975,stroke-width:1px,color:#fff
+    style Staging_UI fill:#2b2618,stroke:#856404,stroke-width:1px,color:#fff
+    style Data_Layer fill:#18261e,stroke:#28a745,stroke-width:1px,color:#fff
 ```
-  ┌────────────────────────────────────────────────────────────────────────┐
-  │                                                                        │
-  │     ██████╗ ██████╗ ██╗██╗   ██╗ █████╗ ████████╗███████╗              │
-  │     ██╔══██╗██╔══██╗██║██║   ██║██╔══██╗╚══██╔══╝██╔════╝              │
-  │     ██████╔╝██████╔╝██║██║   ██║███████║   ██║   █████╗                │
-  │     ██╔═══╝ ██╔══██╗██║╚██╗ ██╔╝██╔══██║   ██║   ██╔══╝                │
-  │     ██║     ██║  ██║██║ ╚████╔╝ ██║  ██║   ██║   ███████╗              │
-  │     ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝  ╚═╝  ╚═╝   ╚═╝   ╚══════╝              │
-  │                                                                        │
-  │              E X P E N S E S   •   L E D G E R                         │
-  │                                                                        │
-  │      [🔒 Air-Gapped]  [⚡ On-Device AI/Regex]  [📊 Rich Insights]      │
-  │                                                                        │
-  └────────────────────────────────────────────────────────────────────────┘
+
+---
+
+## 🔒 Security & Privacy Architecture
+
+```mermaid
+graph LR
+    subgraph Air_Gap [Security Model]
+        App[Private Expenses Application] -.-x|Blocked by OS| Internet((Public Internet))
+        App --> Storage[(App Internal Storage)]
+        Lock[BiometricPrompt / Local PIN] --> App
+    end
+    classDef red fill:#5c1d1d,stroke:#e74c3c,stroke-width:2px,color:#fff;
+    classDef green fill:#1c4d25,stroke:#2ecc71,stroke-width:2px,color:#fff;
+    class Internet red;
+    class Storage,Lock green;
 ```
 
----
+### 1. Zero Network Surface
+The application omits `android.permission.INTERNET`. The Android Linux kernel terminates any socket creation calls at runtime. Even if a malicious third-party library was injected into the build, it could not transmit telemetry or data out of the device.
 
-## 📖 Overview
+### 2. Sandbox File Storage
+All database entities exist strictly under `/data/user/0/com.example.privateexpenses/databases/`. Under the Android security model, cross-app access to this directory is denied by default Unix permissions and SELinux policies.
 
-**Private Expenses** is designed around a single uncompromising principle: **your financial data belongs strictly to you.**
-
-Most modern expense tracking apps require account creation, synchronize bank credentials to third-party cloud servers, read your entire SMS inbox for remote scraping, and monetize your purchasing habits through targeted advertisements. 
-
-**Private Expenses flips the paradigm:**
-- **Zero Cloud**: Operates entirely air-gapped on your physical device.
-- **Zero Internet Permission**: The app doesn’t even request `android.permission.INTERNET`. It is physically incapable of transmitting your financial records anywhere.
-- **Intelligent On-Device Detection**: Automatically detects transaction debits and credits from payment app notifications (Google Pay, PhonePe, Paytm, CRED, BHIM, etc.) and bank SMS in real-time using an on-device regex parsing engine.
-- **Strict User Sovereignty**: Alerts are placed in a staging queue for your approval. No transaction is ever logged without your review and consent.
-- **Clean Material 3 Design**: Crafted with Jetpack Compose and Material 3, featuring fluid dark/light theming, high-contrast accessible typography, and interactive financial charts.
+### 3. Non-Intrusive Push-Event Ingestion
+Unlike legacy tools that run background jobs polling your entire inbox history, Private Expenses uses reactive event listeners (`BroadcastReceiver` and `NotificationListenerService`). It triggers only when an explicit incoming event matches allowlisted package IDs or sender signatures.
 
 ---
 
-## 🔒 Is This Secure? (Security & Privacy Deep Dive)
+## 📊 Core Feature Matrix
 
-Security is not a marketing promise in Private Expenses—it is architecturally enforced at the operating system level:
-
-### 1. Air-Gapped by Design (No `INTERNET` Permission)
-Check `app/src/main/AndroidManifest.xml` yourself: **there is no `android.permission.INTERNET` declaration.**
-Because the app does not hold the Android network permission, the Android OS blocks the application process from opening sockets, making HTTP/REST requests, or transmitting telemetry to any external server. Your transactions cannot leak, even if compromised dependencies existed.
-
-### 2. Sandboxed Local Room Database
-All expense records, budget ceilings, and user preferences reside in a local SQLite database powered by Android Jetpack Room. This database is stored inside the app’s private internal storage sandbox (`/data/user/0/...`), inaccessible to other apps installed on the device.
-
-### 3. Biometric & Security PIN Gate
-When enabled in Settings, the entire ledger is protected by hardware-backed biometrics (Fingerprint / Face Unlock) or an encrypted 4-digit security PIN screen. App content remains hidden until verified.
-
-### 4. Zero Silent Auto-Imports
-When a payment notification or bank SMS is detected, Private Expenses **never** injects it directly into your live financial history. Instead:
-1. It parses the amount, merchant, and payment mode in memory.
-2. It generates a temporary entry in the **Alerts / Suggestions** staging screen.
-3. You retain full control to edit the category, change the note, adjust the amount, approve the record, or dismiss it permanently.
-
-### 5. Configurable App Allowlist
-You choose exactly which payment apps Private Expenses is allowed to monitor. You can toggle Google Pay, Paytm, PhonePe, CRED, Amazon Pay, or add any custom package name at will.
-
-### 6. Transparent Data Portability
-You own your data completely. At any time, you can:
-- Export your filtered transactions to standard **CSV** format for Excel, Google Sheets, or tax accounting.
-- Create an encrypted **JSON backup** to transfer to a new device via the Android system share sheet.
+| Module | Features Included | Primary User Benefit |
+| :--- | :--- | :--- |
+| **🏠 Dashboard** | • Monthly spent vs. budget indicator<br>• Daily average burn rate<br>• Category progress bars<br>• Recent transaction feed | Comprehensive financial status in a single glance without navigating deep menus. |
+| **⚡ Alerts & Staging** | • Real-time capture queue<br>• Amount / Merchant auto-fill<br>• One-tap approval flow<br>• Built-in payment simulator | Prevents erroneous, duplicate, or irrelevant notifications from contaminating your core ledger. |
+| **📜 Ledger History** | • Text search (merchants, notes)<br>• Debit/Credit filters<br>• Time range filters<br>• Multi-parameter sorting | Instant lookups for past spending without index latency. |
+| **🎯 Budgets & Caps** | • Global monthly thresholds<br>• Per-category spending caps<br>• 80% & 100% threshold visual alerts | Proactive overspending prevention with dynamic color-coded indicators. |
+| **📈 Analytics** | • Net balance cash flow trends<br>• Category distribution ring<br>• Period comparisons (Week/Month/Year) | Visualizes financial health on-device with zero server-side computation. |
+| **💾 Export & Portability** | • Standard CSV spreadsheet export<br>• Encrypted JSON database dump<br>• System share sheet integration | Seamless auditing in Excel/Google Sheets and effortless device migrations. |
 
 ---
 
-## ✨ Features
+## 📋 Permission Justification Matrix
 
-| Screen / Feature | Description |
-| :--- | :--- |
-| **🏠 Dashboard** | High-level monthly spending summary, today's total spending, remaining budget status with dynamic progress indicator, top active categories, and recent transactions. |
-| **⚡ Alerts & Suggestions** | Real-time staging queue for captured bank SMS and notification payments. Approve with one tap, edit details before saving, or swipe to ignore. |
-| **🛠️ Payment Simulator** | Built-in test center to simulate real-world bank transactions (e.g., Swiggy, Amazon, Uber, Salary credit) without needing physical cards. |
-| **📜 Transaction History** | Search transactions by merchant name or notes, filter by **All / Debits / Credits**, and sort chronologically or by amount. |
-| **🎯 Budgets & Limits** | Configure an overall monthly spending ceiling as well as category-specific monthly caps. Visual warning bars notify you when you approach or exceed limits. |
-| **📊 Insights & Analytics** | Interactive charts (Weekly, Monthly, Yearly, Custom date range), net balance cash flow, category distribution donut ring, and daily average spending. |
-| **🔐 Biometric App Lock** | Optional security gate requiring biometric fingerprint/face authentication or a 4-digit PIN code upon opening the app. |
-| **🎨 Theming & Appearance** | Seamless toggle between **Obsidian Dark**, **Crisp Light**, or **System Default** themes, built with Material 3 dynamic color tokens. |
-| **📤 Data Export & Backup** | Export clean CSV files with custom date filters and backup/restore full database records safely without cloud storage. |
+| Permission | Android ID | Scope & Security Justification |
+| :--- | :--- | :--- |
+| **Notification Listener** | `BIND_NOTIFICATION_LISTENER_SERVICE` | **Required for Payment Push Parsing.** Listens strictly to notifications originating from package names specified in your allowlist (e.g., Google Pay, PhonePe, Paytm). |
+| **Receive SMS** | `android.permission.RECEIVE_SMS` | **Required for Bank Debits.** Listens for incoming transactional SMS debits/credits in real time. Does not parse OTPs or personal texts. |
+| **Read SMS** | `android.permission.READ_SMS` | **Optional.** Used solely if you explicitly trigger a one-time import to scan recent bank statements on setup. |
+| **Post Notifications** | `android.permission.POST_NOTIFICATIONS` | **Optional.** Delivers a local tray reminder when an expense has been staged and awaits approval. |
+| **Biometric Access** | `android.permission.USE_BIOMETRIC` | **Optional.** Authenticates the user locally via system biometric hardware prior to opening the ledger. |
+| **Internet Access** | ❌ **NOT REQUESTED** | **Intentionally Excluded.** Guarantees zero outbound data leakage. |
 
 ---
 
-## 📱 How to Use Private Expenses
+## 🚀 Quick Start & Setup Guide
 
-### Step 1: First Launch & Quick Setup
-1. Launch the app. You will be greeted by the Apple-inspired splash animation.
-2. If you would like biometric security, navigate to **Settings** (`⚙️`) and enable **Biometric & PIN Lock**.
-3. Choose your preferred appearance: **Dark**, **Light**, or **System default**.
+### 1. Initial Permission Configuration
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User
+    participant App as Private Expenses
+    participant OS as Android Settings
 
-### Step 2: Adding Expenses Manually
-1. On the **Dashboard** or **Transactions** screen, tap the floating `+` button.
-2. Enter the amount, choose whether it is an **Expense (Debit)** or **Income (Credit)**.
-3. Select a category (e.g., *Food, Shopping, Bills, Travel, Groceries, Medical, Entertainment, Other*).
-4. Enter the merchant name (e.g., "Starbucks") and select the payment mode (*UPI, Credit Card, Debit Card, Cash, Net Banking*).
-5. Tap **Save Expense**.
+    User->>App: Launch App & Navigate to Settings
+    User->>App: Tap "Enable Notification Listener"
+    App->>OS: Open Notification Access Screen
+    User->>OS: Grant Access to "Private Expenses"
+    OS-->>App: Access Granted
+    User->>App: Select Enabled Payment Apps (GPay, PhonePe, etc.)
+    App-->>User: Setup Complete (Monitoring Active)
+```
 
-### Step 3: Enabling Automatic Bank SMS & Notification Parsing
-1. Go to the **Alerts** tab (`💬`) or **Settings** (`⚙️`).
-2. Tap **Grant Notification Listener Access** and toggle Private Expenses to **ON** in Android Settings.
-3. If you want direct bank SMS tracking, allow the SMS permission prompt.
-4. From now on, whenever you pay using Google Pay, PhonePe, Paytm, or receive an official bank SMS (HDFC, SBI, ICICI, etc.), Private Expenses will extract the details automatically.
-
-### Step 4: Testing with the Payment Simulator (No Real Money Needed)
-1. Navigate to the **Alerts** tab (`💬`).
-2. Tap the lightning bolt icon (`⚡`) in the top bar to open the **Simulate Payment Alert** modal.
-3. Tap any sample preset (e.g., *"Swiggy ₹450"*, *"Amazon ₹1,899"*, *"Zomato ₹320"*, or *"Salary Credit ₹75,000"*).
-4. Watch the alert appear instantly in your suggestions queue! Tap **Quick Save** or **Edit Details** to test the complete workflow.
-
-### Step 5: Managing Budgets
-1. Navigate to the **Budget** tab (`🏛️`).
-2. Set your **Overall Monthly Budget** ceiling (e.g., ₹30,000).
-3. Tap **Add Category Budget** to set specific ceilings for *Food*, *Shopping*, etc.
-4. Watch your progress bars update in real-time as expenses are approved.
-
-### Step 6: Reviewing Analytics & Exporting CSV
-1. Tap **Insights** (`📈`) from the bottom navigation bar.
-2. Switch between **Weekly**, **Monthly**, **Yearly**, or **Custom Date Range**.
-3. Inspect your net cash flow, bar charts, category donut ring, and average daily burn rate.
-4. Tap the **Export CSV** button in the top bar to share or save your spreadsheet.
+### 2. Ingestion & Approval Workflow
+1. **Trigger:** Receive a payment confirmation (via UPI app or bank SMS).
+2. **Review:** Open the **Alerts** tab (`💬`).
+3. **Approve:** Tap **Quick Save** to accept parsed values, or tap **Edit** to modify categories or add personal notes.
+4. **Discard:** Swipe away notifications that should not be logged.
 
 ---
 
 ## 🏗️ Technical Architecture
 
-Private Expenses is developed using the latest modern Android standards:
+### Architectural Overview
+The codebase strictly follows standard Android Clean Architecture and MVVM design patterns:
 
 ```
 app/src/main/java/com/example/
-├── MainActivity.kt                      # Main Activity, Root NavHost, Splash & PIN Gate
-├── PrivateExpensesApplication.kt        # Application class initializing Room DB & App Context
 ├── data/
-│   └── local/
-│       ├── ExpenseDatabase.kt           # Room Database with migration strategies
-│       ├── dao/
-│       │   └── ExpenseDao.kt            # Reactive Flow-based database queries
-│       └── entities/
-│           ├── Expense.kt               # Core expense record entity
-│           ├── Budget.kt                # Monthly category budget entity
-│           └── NotificationSuggestion.kt# Captured alerts staging entity
+│   ├── local/
+│   │   ├── ExpenseDatabase.kt         # Room database with versioned migrations
+│   │   ├── dao/
+│   │   │   └── ExpenseDao.kt          # Reactive Flow/Coroutine SQL queries
+│   │   └── entities/
+│   │       ├── Expense.kt             # Ledger records
+│   │       ├── Budget.kt              # Monthly budget allocations
+│   │       └── NotificationItem.kt    # Staging queue items
 ├── presentation/
 │   ├── viewmodel/
-│   │   └── ExpenseViewModel.kt          # Central state management with StateFlow
+│   │   └── ExpenseViewModel.kt        # StateFlow-based unidirectional UI state
 │   └── screens/
-│       ├── DashboardScreen.kt           # Home dashboard with clean M3 budget status card
-│       ├── TransactionsScreen.kt        # Searchable transaction history with filters
-│       ├── SuggestionsScreen.kt         # Pending alert queue & Payment Simulator
-│       ├── BudgetsScreen.kt             # Monthly budget limits & warning alerts
-│       ├── InsightsScreen.kt            # Charts, analytics & CSV export engine
-│       ├── SettingsScreen.kt            # Privacy allowlist, PIN lock & theme prefs
-│       └── AddExpenseDialog.kt          # Unified transaction creation/editing dialog
+│       ├── DashboardScreen.kt         # Monthly summary & overview
+│       ├── TransactionsScreen.kt      # Searchable, filterable history
+│       ├── SuggestionsScreen.kt       # Staging approval inbox & Simulator
+│       ├── BudgetsScreen.kt           # Threshold configuration
+│       ├── InsightsScreen.kt          # Analytics & CSV export
+│       └── SettingsScreen.kt          # App allowlist, PIN & theming
 ├── service/
-│   ├── PaymentNotificationListenerService.kt # Android NotificationListenerService
-│   ├── SmsReceiver.kt                   # BroadcastReceiver for bank SMS debits
-│   └── ParserEngine.kt                  # Regex extraction engine for transaction data
-└── ui/
-    └── theme/
-        ├── Color.kt                     # Curated M3 palette (Obsidian, Emerald, Violet)
-        ├── Theme.kt                     # Dynamic theme provider with dark/light modes
-        └── Type.kt                      # Modern typographic scale
+│   ├── PaymentNotificationListener.kt # Intercepts allowlisted app push receipts
+│   ├── SmsReceiver.kt                 # BroadcastReceiver for bank debits
+│   └── ParserEngine.kt                # Thread-safe Regex parsing logic
+└── ui/theme/                          # Material 3 tokens, dynamic color, typography
 ```
 
 ---
 
-## 📋 Permission Breakdown
+## 💻 Build & Development Setup
 
-| Permission | Android Declaration | Justification & Scope |
-| :--- | :--- | :--- |
-| **Notification Listener** | `BIND_NOTIFICATION_LISTENER_SERVICE` | Required solely to read incoming push receipts from allowed payment apps. Zero notification data ever leaves your device. |
-| **Receive SMS** | `android.permission.RECEIVE_SMS` | Captures bank debit/credit confirmation SMS in real-time for instant budget updating. |
-| **Read SMS** | `android.permission.READ_SMS` | Allows one-time scanning of recent bank confirmation SMS upon user request. |
-| **Post Notifications** | `android.permission.POST_NOTIFICATIONS` | Displays a local reminder when a high-value expense alert is ready for your review. |
-| **INTERNET** | ❌ **NOT REQUESTED** | **Intentionally omitted.** The app cannot access the internet under any circumstances. |
+### Environment Requirements
+- **JDK:** Version 17 or higher
+- **Android Studio:** Ladybug / Meerkat (2024.2+)
+- **Android SDK:** Compile SDK 35, Min SDK 26
 
----
-
-## 🛠️ Building & Testing
-
-### Prerequisites
-- Android Studio Ladybug / Meerkat (or newer)
-- Android SDK 35 (compileSdk: 35, minSdk: 26)
-- Java 17 / OpenJDK 17
-
-### Build Commands
-To assemble a debug APK:
+### CLI Build Commands
 ```bash
-gradle assembleDebug
-```
+# 1. Clone the repository
+git clone https://github.com/your-username/private-expenses.git
+cd private-expenses
 
-To run local Robolectric and JUnit unit tests:
-```bash
-gradle :app:testDebugUnitTest
+# 2. Compile and assemble debug APK
+./gradlew assembleDebug
+
+# 3. Execute unit tests
+./gradlew testDebugUnitTest
+
+# 4. Install debug build to a connected device/emulator
+./gradlew installDebug
 ```
 
 ---
 
 ## 📄 License
 
-This application is proprietary and designed for private personal finance management. You are free to modify, build, and use this application on your personal Android devices with complete peace of mind.
-
-**Private Expenses: Because your financial life is nobody else's business.**
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for terms.
